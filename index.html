@@ -17,8 +17,61 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            box-sizing: border-box;
             text-align: center;
+        }
+
+        #main-content {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #login-gate {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 360px;
+        }
+
+        #login-gate h1 {
+            font-size: 2em;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        #password-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            font-family: inherit;
+            background-color: #1E1F20;
+            color: #fff;
+            border: 1px solid #2e3032;
+            border-radius: 8px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        #password-input:focus {
+            outline: none;
+            border-color: #555;
+        }
+
+        #unlock-btn {
+            width: 100%;
+        }
+
+        #error-msg {
+            color: #f28b82;
+            font-size: 14px;
+            margin: 0;
+            display: none;
         }
 
         header h1 {
@@ -83,32 +136,75 @@
 </head>
 <body>
 
-<header>
-    <h1>Keelan's Stuff</h1>
-</header>
-
-<div class="container">
-    <button onclick="location.href='https://kee0000.github.io/site'">
-        <span class="material-symbols-outlined">search</span>
-        Search
+<div id="login-gate">
+    <h1>Enter Password</h1>
+    <input type="password" id="password-input" placeholder="Password" onkeydown="handleKey(event)" />
+    <button id="unlock-btn" onclick="checkPassword()">
+        <span class="material-symbols-outlined">lock_open</span>
+        Unlock
     </button>
-    <button onclick="location.href='https://kee0000.github.io/timer'">
-        <span class="material-symbols-outlined">timer</span>
-        Timer Tab
-    </button>
-    <button onclick="location.href='https://thumbnailvault.vercel.app/'">
-        <span class="material-symbols-outlined">photo_library</span>
-        Thumbnail Vault
-    </button>
-    <button onclick="location.href='https://fdtrackerkee.vercel.app/'">
-        <span class="material-symbols-outlined">restaurant</span>
-        Food Tracker
-    </button>
-    <button onclick="location.href='https://ratethattapwater.vercel.app/'">
-        <span class="material-symbols-outlined">water_full</span>
-        RateThatTapWater
-    </button>
+    <p id="error-msg">Incorrect password</p>
 </div>
 
-<p class="footer-text">Made by Keelan</p> </body>
+<div id="main-content">
+    <header>
+        <h1>Keelan's Stuff</h1>
+    </header>
+
+    <div class="container">
+        <button onclick="location.href='https://kee0000.github.io/site'">
+            <span class="material-symbols-outlined">search</span>
+            Search
+        </button>
+        <button onclick="location.href='https://kee0000.github.io/timer'">
+            <span class="material-symbols-outlined">timer</span>
+            Timer Tab
+        </button>
+        <button onclick="location.href='https://thumbnailvault.vercel.app/'">
+            <span class="material-symbols-outlined">photo_library</span>
+            Thumbnail Vault
+        </button>
+        <button onclick="location.href='https://fdtrackerkee.vercel.app/'">
+            <span class="material-symbols-outlined">restaurant</span>
+            Food Tracker
+        </button>
+        <button onclick="location.href='https://ratethattapwater.vercel.app/'">
+            <span class="material-symbols-outlined">water_full</span>
+            RateThatTapWater
+        </button>
+    </div>
+
+    <p class="footer-text">Made by Keelan</p>
+</div>
+
+<script>
+    const CORRECT_PASSWORD = "conto74";
+
+    if (sessionStorage.getItem("unlocked") === "true") {
+        showSite();
+    }
+
+    function handleKey(event) {
+        if (event.key === "Enter") {
+            checkPassword();
+        }
+    }
+
+    function checkPassword() {
+        const input = document.getElementById("password-input").value;
+        if (input === CORRECT_PASSWORD) {
+            sessionStorage.setItem("unlocked", "true");
+            showSite();
+        } else {
+            document.getElementById("error-msg").style.display = "block";
+        }
+    }
+
+    function showSite() {
+        document.getElementById("login-gate").style.display = "none";
+        document.getElementById("main-content").style.display = "flex";
+    }
+</script>
+
+</body>
 </html>
